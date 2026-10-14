@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="theme-clean">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Service Executive Workspace | ایس ایم ایس سروس ورک اسپیس</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ApexCharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <style>
+        /* DESIGN SYSTEM - PREMIUM CUSTOM THEMES */
+        :root {
+            /* ROYAL AURORA (Default Dark Green & Emerald Gold) */
+            --bg-color: #050b09;
+            --sidebar-bg: #09120f;
+            --card-bg: #0c1a15;
+            --border-color: rgba(46, 213, 115, 0.12);
+            --border-hover: rgba(46, 213, 115, 0.35);
+            --primary-color: #2ed573;
+            --primary-rgb: 46, 213, 115;
+            --accent-color: #eccc68;
+            --accent-rgb: 236, 204, 104;
+            --text-primary: #ffffff;
+            --text-secondary: #a4b0be;
+            --table-header: #0e231d;
+            --table-row-hover: #122c24;
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --active-nav-bg: rgba(46, 213, 115, 0.1);
+        }
+
+        .theme-dark {
+            /* DEEP SPACE (Glow Dark Mode) */
+            --bg-color: #060913;
+            --sidebar-bg: #0d111e;
+            --card-bg: #121829;
+            --border-color: rgba(0, 229, 255, 0.12);
+            --border-hover: rgba(0, 229, 255, 0.35);
+            --primary-color: #00e5ff;
+            --primary-rgb: 0, 229, 255;
+            --accent-color: #d500f9;
+            --accent-rgb: 213, 0, 249;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --table-header: #1a233d;
+            --table-row-hover: #1f2a4a;
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.55);
+            --active-nav-bg: rgba(0, 229, 255, 0.1);
+        }
+
+        .theme-clean {
+            /* NORDIC CLEAN (High Contrast Light Mode) */
+            --bg-color: #f1f5f9;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #cbd5e1;
+            --border-hover: #94a3b8;
+            --primary-color: #3b82f6;
+            --primary-rgb: 59, 130, 246;
+            --accent-color: #f59e0b;
+            --accent-rgb: 245, 158, 11;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --table-header: #f8fafc;
+            --table-row-hover: #f1f5f9;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --active-nav-bg: rgba(59, 130, 246, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        html[dir="rtl"] body {
+            font-family: 'Noto Sans Arabic', 'Outfit', sans-serif;
+        }
+
+        /* TOP NAVBAR - NO SIDEBAR NEEDED */
+        .top-navbar {
+            background-color: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.85rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-size: 1.15rem;
+            box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name h2 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .brand-name span {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* HORIZONTAL TABS IN HEADER */
+        .nav-menu-horizontal {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background-color: var(--table-row-hover);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            background-color: var(--active-nav-bg);
+            border-color: var(--border-color);
+            font-weight: 600;
+        }
+
+        /* HEADER CONTROLS (RIGHT SECTION) */
+        .navbar-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .btn-filters-toggle {
+            height: 34px;
+            padding: 0 1rem;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-filters-toggle:hover, .btn-filters-toggle.active {
+            background-color: var(--primary-color);
+            color: #000000;
+            border-color: var(--primary-color);
+        }
+
+        .theme-select-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-select {
+            padding: 0.35rem 1.75rem 0.35rem 0.65rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.82rem;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23a4b0be' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.45rem center;
+            background-size: 1.1em;
+        }
+
+        html[dir="rtl"] .theme-select {
+            padding: 0.35rem 0.65rem 0.35rem 1.75rem;
+            background-position: left 0.45rem center;
+        }
+
+        .btn-group {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .btn-group .btn {
+            height: 32px;
+            padding: 0 0.75rem;
+            background-color: var(--card-bg);
+            color: var(--text-secondary);
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .btn-group .btn.active {
+            background-color: var(--primary-color);
+            color: #000000;
+            font-weight: 600;
+        }
+
+        /* COLLAPSIBLE TOP FILTER PANEL */
+        .top-filter-panel {
+            background-color: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.25rem 2rem;
+            display: none; /* Toggled via JS */
+            box-shadow: var(--card-shadow);
+            animation: slideDown 0.3s ease forwards;
+        }
+
+        .top-filter-panel.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .filter-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 0.45rem 1.75rem 0.45rem 0.65rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.82rem;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23a4b0be' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.45rem center;
+            background-size: 1.1em;
+        }
+
+        html[dir="rtl"] .filter-select {
+            padding: 0.45rem 0.65rem 0.45rem 1.75rem;
+            background-position: left 0.45rem center;
+        }
+
+        .filter-select:focus {
+            border-color: var(--primary-color);
+        }
+
+        .btn-clear {
+            width: 100%;
+            height: 34px;
+            padding: 0 1rem;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-clear:hover {
+            background-color: var(--primary-color);
+            color: #000000;
+            border-color: var(--primary-color);
+        }
+
+        /* MAIN CONTENT AREA - NO LEFT MARGIN */
+        .main-content {
+            width: 100%;
+            min-height: calc(100vh - 60px);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* HEADER & SEARCH */
+        .content-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-title-block h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-title-block span {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* VIEWS CONTAINER (SPA NAVIGATION) */
+        .tab-view {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+            flex-direction: column;
+            gap: 2.25rem;
+        }
+
+        .tab-view.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SECTION SEPARATOR */
+        .section-header {
+            margin-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--primary-color);
+        }
+
+        /* KPI CONTAINER - RESPONSIVE AUTO FIT */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .kpi-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+        }
+
+        .kpi-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .kpi-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .kpi-sub {
+            font-size: 0.73rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .kpi-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1), rgba(var(--accent-rgb), 0.1));
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.25rem;
+        }
+
+        /* CHARTS GRIDS - RESPONSIVE AUTO FIT */
+        .charts-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .charts-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .grid-1-2 {
+            display: grid;
+            grid-template-columns: 1fr 2.2fr;
+            gap: 1.5rem;
+        }
+
+        .grid-2-1 {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1400px) {
+            .grid-1-2, .grid-2-1 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* GLASS CARD */
+        .glass-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            position: relative;
+        }
+
+        .glass-card:hover {
+            border-color: var(--border-hover);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-heading {
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-chart-wrap {
+            width: 100%;
+            min-height: 280px;
+        }
+
+        /* DIRECTORS FEED */
+        .insights-feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .insight-card {
+            background: linear-gradient(135deg, var(--card-bg), var(--sidebar-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .insight-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            width: 90%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            border-radius: 5px;
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+
+        .insight-header i {
+            font-size: 1.25rem;
+        }
+
+        .insight-body {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        /* DATATABLE STYLING (DATA EXPLORER) */
+        .explorer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .explorer-search-wrapper {
+            position: relative;
+            max-width: 350px;
+            width: 100%;
+        }
+
+        .explorer-search-input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--sidebar-bg);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            outline: none;
+        }
+
+        html[dir="rtl"] .explorer-search-input {
+            padding: 0.6rem 2.5rem 0.6rem 1rem;
+        }
+
+        .explorer-search-icon {
+            position: absolute;
+            left: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        html[dir="rtl"] .explorer-search-icon {
+            left: auto;
+            right: 0.9rem;
+        }
+
+        .explorer-table-card {
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        html[dir="rtl"] .data-table {
+            text-align: right;
+        }
+
+        .data-table th {
+            background-color: var(--table-header);
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 0.9rem 1rem;
+            border-bottom: 2px solid var(--border-color);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .data-table th.sortable:hover {
+            background-color: var(--table-row-hover);
+        }
+
+        .data-table th i {
+            margin-left: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        html[dir="rtl"] .data-table th i {
+            margin-left: 0;
+            margin-right: 0.5rem;
+        }
+
+        .data-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .data-table tr:hover td {
+            background-color: var(--table-row-hover);
+            color: var(--text-primary);
+        }
+
+        .data-table tr.total-row td {
+            background-color: var(--table-header);
+            color: var(--text-primary);
+            font-weight: 700;
+            border-bottom: none;
+        }
+
+        /* PAGINATION */
+        .table-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background-color: var(--sidebar-bg);
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-info {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .page-btn {
+            min-width: 32px;
+            height: 32px;
+            padding: 0 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background-color: var(--table-row-hover);
+            border-color: var(--primary-color);
+        }
+
+        .page-btn.active {
+            background-color: var(--primary-color);
+            color: #000000;
+            border-color: var(--primary-color);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .row-select-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .row-select {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* COLLAPSIBLE MOBILE MENU OVERLAY */
+        .mobile-menu-overlay {
+            display: none;
+            background-color: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem;
+            flex-direction: column;
+            gap: 1.25rem;
+            box-shadow: var(--card-shadow);
+            animation: slideDown 0.3s ease forwards;
+        }
+
+        .mobile-menu-overlay.active {
+            display: flex;
+        }
+
+        .menu-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* BADGES */
+        .badge-pill {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* RESPONSIVE LAYOUT MEDIA QUERIES */
+        @media (max-width: 992px) {
+            .nav-menu-horizontal, .navbar-controls {
+                display: none;
+            }
+
+            .menu-toggle-btn {
+                display: block;
+            }
+
+            .top-filter-panel {
+                display: none !important; /* Managed inside mobile menu drawer */
+            }
+
+            .main-content {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- TOP NAVIGATION NAVBAR -->
+    <header class="top-navbar">
+        <div class="brand-block">
+            <div class="brand-logo">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <div class="brand-name">
+                <h2 data-translate="app_title">SMS SERVICE</h2>
+                <span data-translate="app_subtitle">Executive Workspace</span>
+            </div>
+        </div>
+
+        <!-- Horizontal navigation tabs (Desktop only) -->
+        <ul class="nav-menu-horizontal">
+            <li>
+                <a class="nav-link active" onclick="switchTab('dashboard', this)">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span data-translate="nav_overview">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" onclick="switchTab('explorer', this)">
+                    <i class="fa-solid fa-table"></i>
+                    <span data-translate="nav_explorer">Data Explorer</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Controls panel (Desktop only) -->
+        <div class="navbar-controls">
+            <button class="btn-filters-toggle" id="filter-toggle-btn" onclick="toggleFilterPanel()">
+                <i class="fa-solid fa-filter"></i>
+                <span data-translate="clear_filters">Workspace Filters</span>
+            </button>
+
+            <!-- Theme selector -->
+            <div class="theme-select-container">
+                <select class="theme-select" id="theme-selector" onchange="setTheme(this.value)">
+                    <option value="royal" data-translate="theme_royal">Royal Aurora</option>
+                    <option value="dark" data-translate="theme_dark">Deep Space</option>
+                    <option value="clean" data-translate="theme_clean" selected>Nordic Clean</option>
+                </select>
+            </div>
+
+            <!-- Language toggler -->
+            <div class="btn-group">
+                <button class="btn active" id="lang-en" onclick="setLanguage('en')">English</button>
+                <button class="btn" id="lang-ur" onclick="setLanguage('ur')">اردو</button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Hamburger button (Mobile/Tablet only) -->
+        <button class="menu-toggle-btn" onclick="toggleMobileMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- MOBILE COLLAPSIBLE DRAWER (Mobile/Tablet only) -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <!-- Tab Navigation inside menu drawer -->
+        <div class="filter-group">
+            <label class="filter-label" data-translate="app_subtitle">Navigation</label>
+            <div class="btn-group" style="width: 100%;">
+                <button class="btn active" id="mobile-tab-dash" onclick="switchTabMobile('dashboard')" style="flex: 1;">Dashboard</button>
+                <button class="btn" id="mobile-tab-exp" onclick="switchTabMobile('explorer')" style="flex: 1;">Data Explorer</button>
+            </div>
+        </div>
+
+        <!-- Themes & Languages inside menu drawer -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="filter-group">
+                <label class="filter-label">Theme</label>
+                <select class="filter-select" id="mobile-theme-selector" onchange="setTheme(this.value)" style="width: 100%;">
+                    <option value="royal">Royal Aurora</option>
+                    <option value="dark">Deep Space</option>
+                    <option value="clean" selected>Nordic Clean</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Language</label>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn active" id="mobile-lang-en" onclick="setLanguage('en')" style="flex: 1;">EN</button>
+                    <button class="btn" id="mobile-lang-ur" onclick="setLanguage('ur')" style="flex: 1;">اردو</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Section inside menu drawer -->
+        <div class="sidebar-section-title" data-translate="clear_filters">Workspace Filters</div>
+        <div class="filters-grid" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_year">Year</label>
+                <select class="filter-select" id="mobile-filter-year" onchange="syncFilters('year', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_month">Month</label>
+                <select class="filter-select" id="mobile-filter-month" onchange="syncFilters('month', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_dept">Department</label>
+                <select class="filter-select" id="mobile-filter-dept" onchange="syncFilters('dept', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_app">Application</label>
+                <select class="filter-select" id="mobile-filter-app" onchange="syncFilters('app', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_vendor">Vendor</label>
+                <select class="filter-select" id="mobile-filter-vendor" onchange="syncFilters('vendor', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_mask">SMS Mask</label>
+                <select class="filter-select" id="mobile-filter-mask" onchange="syncFilters('mask', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <button class="btn-clear" onclick="clearAllFilters()">
+                <i class="fa-solid fa-filter-circle-xmark"></i>
+                <span data-translate="clear_filters">Clear Filters</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- COLLAPSIBLE TOP FILTER DRAWER (Desktop only) -->
+    <div class="top-filter-panel" id="top-filter-drawer">
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_year">Year</label>
+                <select class="filter-select" id="filter-year" onchange="syncFilters('year', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_month">Month</label>
+                <select class="filter-select" id="filter-month" onchange="syncFilters('month', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_dept">Department</label>
+                <select class="filter-select" id="filter-dept" onchange="syncFilters('dept', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_app">Application</label>
+                <select class="filter-select" id="filter-app" onchange="syncFilters('app', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_vendor">Vendor</label>
+                <select class="filter-select" id="filter-vendor" onchange="syncFilters('vendor', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" data-translate="filter_mask">SMS Mask</label>
+                <select class="filter-select" id="filter-mask" onchange="syncFilters('mask', this.value)">
+                    <option value="all" data-translate="all">All</option>
+                </select>
+            </div>
+            <button class="btn-clear" onclick="clearAllFilters()">
+                <i class="fa-solid fa-filter-circle-xmark"></i>
+                <span data-translate="clear_filters">Clear Filters</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        
+        <!-- CONTENT TOP HEADER -->
+        <header class="content-header">
+            <div class="header-title-block">
+                <h1 id="view-title" data-translate="view_title_overview">SMS DASHBOARD</h1>
+                <span id="date-range-badge" class="badge-pill">01 Jul 2025 - 30 Jun 2026</span>
+            </div>
+        </header>
+
+        <!-- VIEW 1: DASHBOARD (Merged Overview, Depts, Vendors) -->
+        <div class="tab-view active" id="view-dashboard">
+            
+            <!-- OVERVIEW KPIs -->
+            <div class="kpi-row">
+                <div class="kpi-card">
+                    <div class="kpi-details">
+                        <span class="kpi-title" data-translate="kpi_total_sms">Total SMS</span>
+                        <span class="kpi-number" id="kpi-sms">0.00M</span>
+                        <span class="kpi-sub"><i class="fa-solid fa-circle-arrow-up"></i> <span data-translate="kpi_active">Selected</span></span>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-details">
+                        <span class="kpi-title" data-translate="kpi_total_cost">Total Cost</span>
+                        <span class="kpi-number" id="kpi-cost">0.00M</span>
+                        <span class="kpi-sub"><i class="fa-solid fa-circle-arrow-up"></i> <span data-translate="kpi_active">Selected</span></span>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-details">
+                        <span class="kpi-title" data-translate="kpi_cost_per_sms">Cost per SMS</span>
+                        <span class="kpi-number" id="kpi-unit-cost">0.00</span>
+                        <span class="kpi-sub" style="color: var(--accent-color);"><i class="fa-solid fa-calculator"></i> <span data-translate="kpi_avg">PKR Average</span></span>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-details">
+                        <span class="kpi-title" data-translate="kpi_total_depts">Departments</span>
+                        <span class="kpi-number" id="kpi-dept-count">0</span>
+                        <span class="kpi-sub"><i class="fa-solid fa-sitemap"></i> <span data-translate="kpi_active">Active</span></span>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <i class="fa-solid fa-sitemap"></i>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-details">
+                        <span class="kpi-title" data-translate="kpi_total_vendors">Vendors</span>
+                        <span class="kpi-number" id="kpi-vendor-count">0</span>
+                        <span class="kpi-sub"><i class="fa-solid fa-truck"></i> <span data-translate="kpi_active">Active</span></span>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <i class="fa-solid fa-truck"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION 1: TRENDS -->
+            <div class="section-header">
+                <i class="fa-solid fa-chart-line"></i>
+                <h2 data-translate="chart_sms_trend">Consumption & Cost Trends</h2>
+            </div>
+            
+            <div class="charts-grid-3">
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-chart-line"></i> <span data-translate="chart_sms_trend">SMS Consumption Trend</span></span>
+                    </div>
+                    <div class="card-chart-wrap" id="chart-overview-sms-trend"></div>
+                </div>
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-chart-line"></i> <span data-translate="chart_cost_trend">SMS Expense Trend</span></span>
+                    </div>
+                    <div class="card-chart-wrap" id="chart-overview-cost-trend"></div>
+                </div>
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-chart-column"></i> <span data-translate="chart_sms_vs_cost">SMS vs Cost Distribution</span></span>
+                    </div>
+                    <div class="card-chart-wrap" id="chart-overview-mixed"></div>
+                </div>
+            </div>
+
+            <div class="grid-1-2">
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-receipt"></i> <span data-translate="table_top_masks">Top SMS Masks Share</span></span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="overview-masks-table">
+                            <thead>
+                                <tr>
+                                    <th data-translate="table_col_mask">Mask</th>
+                                    <th style="text-align: right;" data-translate="table_col_sms">SMS</th>
+                                    <th style="text-align: right;" data-translate="table_col_share">% Share</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading" style="color: var(--primary-color);"><i class="fa-solid fa-lightbulb"></i> <span data-translate="insights_title">Director Insights Feed</span></span>
+                    </div>
+                    <div class="insights-feed" id="insights-container">
+                        <!-- Dynamic insights cards will go here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: DEPARTMENT ANALYTICS -->
+            <div class="section-header">
+                <i class="fa-solid fa-building"></i>
+                <h2 data-translate="nav_depts">Department & Application Insights</h2>
+            </div>
+
+            <div class="charts-grid-3">
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-chart-pie"></i> <span data-translate="chart_top_depts">Departments Share</span></span>
+                    </div>
+                    <div class="card-chart-wrap" id="chart-dept-donut"></div>
+                </div>
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-chart-bar"></i> <span data-translate="chart_dept_contrib">Contribution %</span></span>
+                    </div>
+                    <div class="card-chart-wrap" id="chart-dept-contrib"></div>
+                </div>
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-money-bill-1"></i> <span data-translate="chart_dept_cost">Department Wise Cost (PKR)</span></span>
+                    </div>
+                    <div class="card-chart-wrap" id="chart-dept-cost"></div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-top">
+                    <span class="card-heading"><i class="fa-solid fa-grip"></i> <span data-translate="chart_top_apps">Application Wise SMS Distribution</span></span>
+                </div>
+                <div class="card-chart-wrap" id="chart-dept-apps-treemap"></div>
+            </div>
+
+            <!-- SECTION 3: VENDOR & COST ANALYSIS -->
+            <div class="section-header">
+                <i class="fa-solid fa-chart-column"></i>
+                <h2 data-translate="nav_vendors">Vendor & Unit Rate Breakdown</h2>
+            </div>
+
+            <div class="charts-grid-3">
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-chart-pie"></i> <span data-translate="chart_vendor_donut">Vendor SMS Share</span></span>
+                    </div>
+                    <div class="card-chart-wrap" id="chart-vendor-donut"></div>
+                </div>
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-money-bill-wave"></i> <span data-translate="chart_vendor_cost">Vendor Cost Breakdown</span></span>
+                    </div>
+                    <div class="card-chart-wrap" id="chart-vendor-cost"></div>
+                </div>
+                <div class="glass-card">
+                    <div class="card-top">
+                        <span class="card-heading"><i class="fa-solid fa-circle-dollar-to-slot"></i> <span data-translate="chart_avg_cost_trend">Monthly Cost per SMS Trend</span></span>
+                    </div>
+                    <div class="card-chart-wrap" id="chart-vendor-unit-cost-trend"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: DATA EXPLORER -->
+        <div class="tab-view" id="view-explorer">
+            
+            <!-- EXPLORER DYNAMIC TABLE CARD -->
+            <div class="glass-card">
+                <div class="explorer-header">
+                    <h2 class="card-heading"><i class="fa-solid fa-database"></i> <span data-translate="nav_explorer">Database Records Explorer</span></h2>
+                    
+                    <div class="explorer-search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass explorer-search-icon"></i>
+                        <input type="text" class="explorer-search-input" id="table-search" oninput="handleTableSearch()" placeholder="Search departments, apps, masks...">
+                    </div>
+                </div>
+
+                <div class="explorer-table-card">
+                    <div class="table-responsive">
+                        <table class="data-table" id="main-data-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" onclick="sortTable('s_no')" data-translate="table_col_sno">S.No <i class="fa-solid fa-sort"></i></th>
+                                    <th class="sortable" onclick="sortTable('dept')" data-translate="filter_dept">Department <i class="fa-solid fa-sort"></i></th>
+                                    <th class="sortable" onclick="sortTable('app')" data-translate="filter_app">Application <i class="fa-solid fa-sort"></i></th>
+                                    <th class="sortable" onclick="sortTable('vendor')" data-translate="filter_vendor">Vendor <i class="fa-solid fa-sort"></i></th>
+                                    <th class="sortable" onclick="sortTable('mask')" data-translate="filter_mask">SMS Mask <i class="fa-solid fa-sort"></i></th>
+                                    <th class="sortable" onclick="sortTable('sms')" style="text-align: right;" data-translate="table_col_sms">SMS <i class="fa-solid fa-sort"></i></th>
+                                    <th class="sortable" onclick="sortTable('month')" data-translate="filter_month">Month <i class="fa-solid fa-sort"></i></th>
+                                    <th class="sortable" onclick="sortTable('cost')" style="text-align: right;" data-translate="table_col_cost">Cost (PKR) <i class="fa-solid fa-sort"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Pagination rows loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-footer">
+                        <div class="row-select-wrap">
+                            <span data-translate="table_rows_per_page">Rows per page:</span>
+                            <select class="row-select" id="table-rows-per-page" onchange="changeRowsPerPage(this.value)">
+                                <option value="10">10</option>
+                                <option value="20" selected>20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="page-info" id="table-page-info">
+                            Showing 1-20 of 133 records
+                        </div>
+                        <div class="pagination-controls" id="table-pagination">
+                            <!-- Pagination buttons -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-left">
+                <i class="fa-solid fa-circle-info"></i>
+                <span data-translate="footer_note">Note: All values are based on available data for the period 01 Jul 2025 to 30 Jun 2026.</span>
+            </div>
+            <div>
+                <span data-translate="footer_refresh">Last Data Refresh:</span> <span id="refresh-time">10 Jun 2026 11:30 AM</span>
+            </div>
+        </footer>
+    </main>
+
+    <!-- JS CONTROLLER CODE -->
+    <script>
+        // DATA ARRAYS INJECTED BY BUILDER
+        const DASHBOARD_DATA = {
+            records: [{"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 665583, "month": "2025-07"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 417, "month": "2025-07"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 437667, "month": "2025-07"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 17393, "month": "2025-07"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1015, "month": "2025-07"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 2870, "month": "2025-07"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 5878, "month": "2025-07"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 5164, "month": "2025-07"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 235, "month": "2025-07"}, {"dept": "Charm e Qurbani", "app": "Charm e Qurbani", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 11, "month": "2025-07"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 621872, "month": "2025-08"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1451, "month": "2025-08"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 398563, "month": "2025-08"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 13202, "month": "2025-08"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1148, "month": "2025-08"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 2694, "month": "2025-08"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 4646, "month": "2025-08"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 5667, "month": "2025-08"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 136, "month": "2025-08"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 702306, "month": "2025-09"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 837, "month": "2025-09"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 316708, "month": "2025-09"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 18844, "month": "2025-09"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1130, "month": "2025-09"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 2031, "month": "2025-09"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 4783, "month": "2025-09"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 5445, "month": "2025-09"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 143, "month": "2025-09"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 792594, "month": "2025-10"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 366, "month": "2025-10"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 641747, "month": "2025-10"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 27934, "month": "2025-10"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1012, "month": "2025-10"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 2280, "month": "2025-10"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 5387, "month": "2025-10"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 5969, "month": "2025-10"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 333, "month": "2025-10"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 747033, "month": "2025-11"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 385, "month": "2025-11"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 324587, "month": "2025-11"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 13513, "month": "2025-11"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1042, "month": "2025-11"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 2596, "month": "2025-11"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 4799, "month": "2025-11"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 5402, "month": "2025-11"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 143, "month": "2025-11"}, {"dept": "Majlis Aetikaf", "app": "Aetikaf-Live", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 28, "month": "2025-11"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 776654, "month": "2025-12"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 380, "month": "2025-12"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 306970, "month": "2025-12"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 13523, "month": "2025-12"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1315, "month": "2025-12"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1918, "month": "2025-12"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 5440, "month": "2025-12"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 4499, "month": "2025-12"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 283, "month": "2025-12"}, {"dept": "Majlis Aetikaf", "app": "Aetikaf-Live", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 80, "month": "2025-12"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 772841, "month": "2026-01"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 851, "month": "2026-01"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 344757, "month": "2026-01"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 38969, "month": "2026-01"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1708, "month": "2026-01"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 6316, "month": "2026-01"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 5708, "month": "2026-01"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 5261, "month": "2026-01"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 242, "month": "2026-01"}, {"dept": "Majlis Aetikaf", "app": "Aetikaf-Live", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 5450, "month": "2026-01"}, {"dept": "Islamic Economic Center", "app": "IEC Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 26, "month": "2026-01"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 765849, "month": "2026-02"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 367, "month": "2026-02"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 381356, "month": "2026-02"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 31887, "month": "2026-02"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 2433, "month": "2026-02"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 4561, "month": "2026-02"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 4561, "month": "2026-02"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 5675, "month": "2026-02"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 227, "month": "2026-02"}, {"dept": "Majlis Aetikaf", "app": "Aetikaf-Live", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 69435, "month": "2026-02"}, {"dept": "Islamic Economic Center", "app": "IEC Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 26, "month": "2026-02"}, {"dept": "Contact-Center-DI", "app": "Contact-Center-DI", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 355, "month": "2026-02"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 783066, "month": "2026-03"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 371, "month": "2026-03"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 867734, "month": "2026-03"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 13623, "month": "2026-03"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 2016, "month": "2026-03"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 409, "month": "2026-03"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 4217, "month": "2026-03"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 12631, "month": "2026-03"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 371, "month": "2026-03"}, {"dept": "Majlis Aetikaf", "app": "Aetikaf-Live", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 57106, "month": "2026-03"}, {"dept": "Islamic Economic Center", "app": "IEC Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 0, "month": "2026-03"}, {"dept": "Contact-Center-DI", "app": "Contact-Center-DI", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 722, "month": "2026-03"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 766170, "month": "2026-04"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 858, "month": "2026-04"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 325185, "month": "2026-04"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 13056, "month": "2026-04"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 1100, "month": "2026-04"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 3100, "month": "2026-04"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 6079, "month": "2026-04"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 21326, "month": "2026-04"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 327, "month": "2026-04"}, {"dept": "Majlis Aetikaf", "app": "Aetikaf-Live", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 19, "month": "2026-04"}, {"dept": "Islamic Economic Center", "app": "IEC Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 17, "month": "2026-04"}, {"dept": "Contact-Center-DI", "app": "Contact-Center-DI", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 300, "month": "2026-04"}, {"dept": "Charm e Qurbani", "app": "Charm e Qurbani", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 53, "month": "2026-04"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 770714, "month": "2026-05"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 386, "month": "2026-05"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 356231, "month": "2026-05"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 23545, "month": "2026-05"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 797, "month": "2026-05"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 2219, "month": "2026-05"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 4544, "month": "2026-05"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 12005, "month": "2026-05"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 332, "month": "2026-05"}, {"dept": "Majlis Aetikaf", "app": "Aetikaf-Live", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 4, "month": "2026-05"}, {"dept": "Islamic Economic Center", "app": "IEC Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 8, "month": "2026-05"}, {"dept": "Contact-Center-DI", "app": "Contact-Center-DI", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 324, "month": "2026-05"}, {"dept": "Charm e Qurbani", "app": "Charm e Qurbani", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 17144, "month": "2026-05"}, {"dept": "Qurbani Management System PAK", "app": "QMS", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 96859, "month": "2026-05"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 738555, "month": "2026-06"}, {"dept": "Madani Atyat Box", "app": "Madani Atyat Box", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 858, "month": "2026-06"}, {"dept": "Finance", "app": "Donation Module - DM", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 295578, "month": "2026-06"}, {"dept": "Pak Ijara", "app": "Ijara [HR Dept DI]", "vendor": "Zong", "mask": "HR Dept DI", "sms": 15798, "month": "2026-06"}, {"dept": "I.T", "app": "Mobile Digital Web", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 220, "month": "2026-06"}, {"dept": "Madani Qafila", "app": "Qafila Simt", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 2999, "month": "2026-06"}, {"dept": "Darul Ifta", "app": "Ifta Checking", "vendor": "Zong", "mask": "DAR UL IFTA", "sms": 3822, "month": "2026-06"}, {"dept": "Asasa Jat", "app": "Asasa Jat[Wakf Imlaak]", "vendor": "Zong", "mask": "ASSASAJAT", "sms": 5606, "month": "2026-06"}, {"dept": "Pak Kabina", "app": "Tanzeemi Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 877, "month": "2026-06"}, {"dept": "Majlis Aetikaf", "app": "Aetikaf-Live", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 6, "month": "2026-06"}, {"dept": "Islamic Economic Center", "app": "IEC Courses", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 8, "month": "2026-06"}, {"dept": "Contact-Center-DI", "app": "Contact-Center-DI", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 456, "month": "2026-06"}, {"dept": "Charm e Qurbani", "app": "Charm e Qurbani", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 401, "month": "2026-06"}, {"dept": "Qurbani Management System PAK", "app": "QMS", "vendor": "Zong", "mask": "DAWATISLAMI", "sms": 4894, "month": "2026-06"}],
+            monthly_amounts: {"2025-07": 2409120.0, "2025-08": 2409120.0, "2025-09": 2409120.0, "2025-10": 2409120.0, "2025-11": 2409120.0, "2025-12": 2409120.0, "2026-01": 2318239.0, "2026-02": 4818240.0, "2026-03": 2409120.0, "2026-04": 2409120.0, "2026-05": 2409120.0, "2026-06": 2409120.0}
+        };
+
+        // DICTIONARIES FOR LOCALIZATION (URDU / ENGLISH)
+        const TRANSLATIONS = {
+            en: {
+                app_title: "SMS WORKSPACE",
+                app_subtitle: "Executive View",
+                nav_overview: "Dashboard",
+                nav_explorer: "Data Explorer",
+                theme_royal: "Royal Aurora",
+                theme_dark: "Deep Space",
+                theme_clean: "Nordic Clean",
+                view_title_overview: "SMS DASHBOARD",
+                view_title_explorer: "DATABASE RECORDS EXPLORER",
+                filter_year: "Year",
+                filter_month: "Month",
+                filter_dept: "Department",
+                filter_app: "Application",
+                filter_vendor: "Vendor",
+                filter_mask: "SMS Mask",
+                clear_filters: "Clear Filters",
+                all: "All",
+                kpi_total_sms: "Total SMS",
+                kpi_total_cost: "Total Cost",
+                kpi_cost_per_sms: "Cost per SMS",
+                kpi_total_depts: "Total Departments",
+                kpi_total_apps: "Total Applications",
+                kpi_total_vendors: "Total Vendors",
+                kpi_total_masks: "Total Masks",
+                kpi_active: "Active",
+                kpi_avg: "PKR Average",
+                chart_sms_trend: "SMS Consumption Trend",
+                chart_cost_trend: "SMS Expense Trend",
+                chart_sms_vs_cost: "SMS vs Cost Distribution",
+                chart_top_depts: "Departments Share",
+                chart_dept_contrib: "Contribution %",
+                chart_dept_cost: "Department Wise Cost (PKR)",
+                chart_avg_cost_trend: "Monthly Cost per SMS Trend",
+                insights_title: "Director Insights Feed",
+                chart_top_apps: "Application Wise SMS Distribution",
+                chart_vendor_donut: "Vendor SMS Share",
+                chart_vendor_cost: "Vendor Cost Breakdown",
+                table_top_masks: "Top SMS Masks Share",
+                table_col_mask: "Mask",
+                table_col_sms: "SMS",
+                table_col_share: "% Share",
+                table_col_sno: "S.No",
+                table_col_cost: "Cost (PKR)",
+                table_rows_per_page: "Rows per page:",
+                footer_note: "Note: All values are based on available data for the period 01 Jul 2025 to 30 Jun 2026.",
+                footer_refresh: "Last Data Refresh:",
+                cost_label: "Cost (PKR)",
+                sms_label: "SMS",
+                share_label: "Share",
+                no_data: "No data matches the selected filters."
+            },
+            ur: {
+                app_title: "ایس ایم ایس سروس",
+                app_subtitle: "ورک اسپیس",
+                nav_overview: "ڈیش بورڈ",
+                nav_explorer: "ڈیٹا ایکسپلورر",
+                theme_royal: "شاہانہ اورورا",
+                theme_dark: "خلائی تاریکی",
+                theme_clean: "سادہ صاف",
+                view_title_overview: "ایس ایم ایس ڈیش بورڈ",
+                view_title_explorer: "ڈیٹا بیس ریکارڈز ایکسپلورر",
+                filter_year: "سال",
+                filter_month: "مہینہ",
+                filter_dept: "شعبہ",
+                filter_app: "ایپلی کیشن",
+                filter_vendor: "وینڈر",
+                filter_mask: "ایس ایم ایس ماسک",
+                clear_filters: "فلٹرز صاف کریں",
+                all: "تمام",
+                kpi_total_sms: "کل ایس ایم ایس",
+                kpi_total_cost: "کل لاگت",
+                kpi_cost_per_sms: "لاگت فی ایس ایم ایس",
+                kpi_total_depts: "کل شعبہ جات",
+                kpi_total_apps: "کل ایپلی کیشنز",
+                kpi_total_vendors: "کل وینڈرز",
+                kpi_total_masks: "کل ماسکس",
+                kpi_active: "فعال",
+                kpi_avg: "روپے اوسط",
+                chart_sms_trend: "ایس ایم ایس کھپت کا رجحان",
+                chart_cost_trend: "ایس ایم ایس اخراجات کا رجحان",
+                chart_sms_vs_cost: "ایس ایم ایس بمقابلہ لاگت تقسیم",
+                chart_top_depts: "شعبہ جاتی حصہ داری",
+                chart_dept_contrib: "حصہ داری %",
+                chart_dept_cost: "شعبہ جاتی لاگت (روپے)",
+                chart_avg_cost_trend: "ماہانہ لاگت فی ایس ایم ایس رجحان",
+                insights_title: "اہم مشاہدات کا فیڈ",
+                chart_top_apps: "ایپلی کیشنز کے لحاظ سے ایس ایم ایس کی تقسیم",
+                chart_vendor_donut: "وینڈر ایس ایم ایس حصہ داری",
+                chart_vendor_cost: "وینڈر لاگت کی تفریق",
+                table_top_masks: "ایس ایم ایس ماسکس حصہ داری",
+                table_col_mask: "ایس ایم ایس ماسک",
+                table_col_sms: "ایس ایم ایس کھپت",
+                table_col_share: "% حصہ داری",
+                table_col_sno: "نمبر شمار",
+                table_col_cost: "لاگت (روپے)",
+                table_rows_per_page: "صفحہ کے ریکارڈز:",
+                footer_note: "نوٹ: تمام اعداد و شمار جولائی 2025 سے جون 2026 کی دستیاب معلومات پر مبنی ہیں۔",
+                footer_refresh: "آخری اپ ڈیٹ:",
+                cost_label: "لاگت (روپے)",
+                sms_label: "ایس ایم ایس",
+                share_label: "حصہ",
+                no_data: "منتخب کردہ فلٹرز کے مطابق کوئی ڈیٹا موجود نہیں ہے۔"
+            }
+        };
+
+        // Data translations dictionary for department names etc.
+        const DATA_TRANSLATIONS = {
+            "Madani Atyat Box": "مدنی عطیات باکس",
+            "Finance": "فنانس (مالیات)",
+            "Pak Ijara": "پاک اجارہ",
+            "Majlis Aetikaf": "مجلسِ اعتکاف",
+            "Qurbani Management System PAK": "قربانی مینجمنٹ سسٹم پاک",
+            "Asasa Jat": "اثاثہ جات",
+            "Darul Ifta": "دارالافتاء",
+            "Madani Qafila": "مدنی قافلہ",
+            "Charm e Qurbani": "چرمِ قربانی",
+            "I.T": "آئی ٹی",
+            "Pak Kabina": "پاک کابینہ",
+            "Islamic Economic Center": "اسلامک اکنامک سینٹر",
+            "Contact-Center-DI": "رابطہ مرکز دعوتِ اسلامی",
+            "Donation Module - DM": "ڈونیشن ماڈیول",
+            "Ijara [HR Dept DI]": "اجارہ [شعبہ ایچ آر]",
+            "Aetikaf-Live": "اعتکاف لائیو",
+            "QMS": "کیو ایم ایس",
+            "Asasa Jat[Wakf Imlaak]": "اثاثہ جات [وقف املاک]",
+            "Ifta Checking": "افتاء چیکنگ",
+            "Qafila Simt": "قافلہ سمت",
+            "Mobile Digital Web": "موبائل ڈیجیٹل ویب",
+            "Tanzeemi Courses": "تنظیمی کورسز",
+            "IEC Courses": "آئی ای سی کورسز",
+            "Zong - Dawateislami": "زونگ - دعوتِ اسلامی",
+            "Zong- HRDeptDI": "زونگ - ایچ آر شعبہ",
+            "Zong": "زونگ",
+            "Zong - Assasajat": "زونگ - اثاثہ جات",
+            "Zong - DarulIfta": "زونگ - دارالافتاء",
+            "DAWATISLAMI": "دعوتِ اسلامی",
+            "HR Dept DI": "ایچ آر شعبہ دعوتِ اسلامی",
+            "ASSASAJAT": "اثاثہ جات",
+            "DAR UL IFTA": "دارالافتاء"
+        };
+
+        // APP STATE
+        let currentLang = 'en';
+        let currentTheme = 'clean';
+        let activeTab = 'dashboard';
+        const globalCharts = {};
+        const monthCategories = [
+            '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12',
+            '2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06'
+        ];
+
+        // DATATABLE STATE
+        let dtSearchQuery = '';
+        let dtSortColumn = 's_no';
+        let dtSortOrder = 'asc';
+        let dtCurrentPage = 1;
+        let dtRowsPerPage = 20;
+
+        // DYNAMIC PRE-CALCULATIONS (PROPORTIONAL COST)
+        const monthlyTotalSMS = {};
+        DASHBOARD_DATA.records.forEach((r, idx) => {
+            monthlyTotalSMS[r.month] = (monthlyTotalSMS[r.month] || 0) + r.sms;
+            r.s_no = idx + 1;
+        });
+
+        DASHBOARD_DATA.records.forEach(r => {
+            const totalSMS = monthlyTotalSMS[r.month] || 0;
+            const totalAmount = DASHBOARD_DATA.monthly_amounts[r.month] || 0;
+            r.cost = totalSMS > 0 ? (r.sms * (totalAmount / totalSMS)) : 0;
+        });
+
+        // NUMBERS & DATE FORMATTERS (PREVENTS FLOATING POINT REPRESENTATIONS)
+        function formatNumber(num, formatType = 'integer') {
+            if (num === undefined || num === null || isNaN(num)) return '0';
+            
+            const roundedVal = Math.round(num * 100) / 100;
+
+            if (formatType === 'million') {
+                return (roundedVal / 1000000).toFixed(2) + 'M';
+            }
+            if (formatType === 'currency') {
+                return (roundedVal / 1000000).toFixed(2) + 'M';
+            }
+            if (formatType === 'decimal') {
+                return roundedVal.toFixed(2);
+            }
+            if (formatType === 'integer') {
+                return Math.round(roundedVal).toLocaleString();
+            }
+            return roundedVal.toLocaleString();
+        }
+
+        function formatMonthName(monthStr, lang) {
+            const parts = monthStr.split('-');
+            const year = parts[0];
+            const monthVal = parts[1];
+            const monthsEN = {
+                '07': 'Jul', '08': 'Aug', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec',
+                '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun'
+            };
+            const monthsUR = {
+                '07': 'جولائی', '08': 'اگست', '09': 'ستمبر', '10': 'اکتوبر', '11': 'نومبر', '12': 'دسمبر',
+                '01': 'جنوری', '02': 'فروری', '03': 'مارچ', '04': 'اپریل', '05': 'مئی', '06': 'جون'
+            };
+            if (lang === 'ur') {
+                return monthsUR[monthVal] + ' ' + year;
+            }
+            return monthsEN[monthVal] + ' ' + year;
+        }
+
+        function getTranslatedValue(val) {
+            if (currentLang === 'ur' && DATA_TRANSLATIONS[val]) {
+                return DATA_TRANSLATIONS[val];
+            }
+            return val;
+        }
+
+        // SPA VIEW TOGGLE
+        function switchTab(tabId, el) {
+            activeTab = tabId;
+
+            // Desktop Tab Active Styling
+            document.querySelectorAll('.nav-menu-horizontal .nav-link').forEach(link => link.classList.remove('active'));
+            if (el) el.classList.add('active');
+
+            // Hide/Show Views
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active'));
+            
+            const viewEl = document.getElementById('view-' + tabId);
+            if (viewEl) viewEl.classList.add('active');
+
+            const titleKeys = {
+                dashboard: 'view_title_overview',
+                explorer: 'view_title_explorer'
+            };
+            const titleEl = document.getElementById('view-title');
+            titleEl.setAttribute('data-translate', titleKeys[tabId]);
+            titleEl.textContent = TRANSLATIONS[currentLang][titleKeys[tabId]];
+
+            // Resize charts
+            window.dispatchEvent(new Event('resize'));
+            
+            // Sync mobile menu tabs active styling
+            const dashBtn = document.getElementById('mobile-tab-dash');
+            const expBtn = document.getElementById('mobile-tab-exp');
+            if (tabId === 'dashboard') {
+                dashBtn.classList.add('active');
+                expBtn.classList.remove('active');
+            } else {
+                dashBtn.classList.remove('active');
+                expBtn.classList.add('active');
+            }
+
+            // Close mobile menu
+            document.getElementById('mobile-menu').classList.remove('active');
+        }
+
+        function switchTabMobile(tabId) {
+            let desktopEl = null;
+            const links = document.querySelectorAll('.nav-menu-horizontal .nav-link');
+            if (tabId === 'dashboard') {
+                desktopEl = links[0];
+            } else {
+                desktopEl = links[1];
+            }
+            switchTab(tabId, desktopEl);
+        }
+
+        // TOGGLE FILTER PANEL (DESKTOP)
+        function toggleFilterPanel() {
+            const drawer = document.getElementById('top-filter-drawer');
+            const btn = document.getElementById('filter-toggle-btn');
+            drawer.classList.toggle('active');
+            btn.classList.toggle('active');
+            window.dispatchEvent(new Event('resize'));
+        }
+
+        // TOGGLE MOBILE MENU OVERLAY
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        }
+
+        // DROP-DOWNS LOADER (DUAL SYNC FOR DESKTOP & MOBILE SELECTS)
+        function initDropdowns() {
+            const years = [...new Set(DASHBOARD_DATA.records.map(r => r.month.split('-')[0]))].sort();
+            const depts = [...new Set(DASHBOARD_DATA.records.map(r => r.dept))].sort();
+            const apps = [...new Set(DASHBOARD_DATA.records.map(r => r.app))].sort();
+            const vendors = [...new Set(DASHBOARD_DATA.records.map(r => r.vendor))].sort();
+            const masks = [...new Set(DASHBOARD_DATA.records.map(r => r.mask))].sort();
+
+            const selects = {
+                year: [document.getElementById('filter-year'), document.getElementById('mobile-filter-year')],
+                month: [document.getElementById('filter-month'), document.getElementById('mobile-filter-month')],
+                dept: [document.getElementById('filter-dept'), document.getElementById('mobile-filter-dept')],
+                app: [document.getElementById('filter-app'), document.getElementById('mobile-filter-app')],
+                vendor: [document.getElementById('filter-vendor'), document.getElementById('mobile-filter-vendor')],
+                mask: [document.getElementById('filter-mask'), document.getElementById('mobile-filter-mask')]
+            };
+
+            // Year Options
+            years.forEach(y => {
+                selects.year.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = y; opt.textContent = y;
+                    s.appendChild(opt);
+                });
+            });
+
+            // Month Options
+            monthCategories.forEach(m => {
+                selects.month.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = m; opt.textContent = formatMonthName(m, 'en');
+                    opt.setAttribute('data-month-val', m);
+                    s.appendChild(opt);
+                });
+            });
+
+            // Dept Options
+            depts.forEach(d => {
+                selects.dept.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = d; opt.textContent = d;
+                    opt.setAttribute('data-orig-text', d);
+                    s.appendChild(opt);
+                });
+            });
+
+            // App Options
+            apps.forEach(a => {
+                selects.app.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = a; opt.textContent = a;
+                    opt.setAttribute('data-orig-text', a);
+                    s.appendChild(opt);
+                });
+            });
+
+            // Vendor Options
+            vendors.forEach(v => {
+                selects.vendor.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = v; opt.textContent = v;
+                    opt.setAttribute('data-orig-text', v);
+                    s.appendChild(opt);
+                });
+            });
+
+            // Mask Options
+            masks.forEach(m => {
+                selects.mask.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = m; opt.textContent = m;
+                    opt.setAttribute('data-orig-text', m);
+                    s.appendChild(opt);
+                });
+            });
+        }
+
+        // SYNC FILTER STATE BETWEEN DESKTOP AND MOBILE MENU SELECTS
+        function syncFilters(filterType, val) {
+            const ids = {
+                year: ['filter-year', 'mobile-filter-year'],
+                month: ['filter-month', 'mobile-filter-month'],
+                dept: ['filter-dept', 'mobile-filter-dept'],
+                app: ['filter-app', 'mobile-filter-app'],
+                vendor: ['filter-vendor', 'mobile-filter-vendor'],
+                mask: ['filter-mask', 'mobile-filter-mask']
+            };
+
+            const pair = ids[filterType];
+            if (pair) {
+                document.getElementById(pair[0]).value = val;
+                document.getElementById(pair[1]).value = val;
+            }
+
+            handleFilterChange();
+        }
+
+        // FILTER WORKSPACE RECORDS
+        function getFilteredData() {
+            const yearVal = document.getElementById('filter-year').value;
+            const monthVal = document.getElementById('filter-month').value;
+            const deptVal = document.getElementById('filter-dept').value;
+            const appVal = document.getElementById('filter-app').value;
+            const vendorVal = document.getElementById('filter-vendor').value;
+            const maskVal = document.getElementById('filter-mask').value;
+
+            return DASHBOARD_DATA.records.filter(r => {
+                if (yearVal !== 'all' && r.month.split('-')[0] !== yearVal) return false;
+                if (monthVal !== 'all' && r.month !== monthVal) return false;
+                if (deptVal !== 'all' && r.dept !== deptVal) return false;
+                if (appVal !== 'all' && r.app !== appVal) return false;
+                if (vendorVal !== 'all' && r.vendor !== vendorVal) return false;
+                if (maskVal !== 'all' && r.mask !== maskVal) return false;
+                return true;
+            });
+        }
+
+        // UPDATE KPI CARDS
+        function updateKPIs(filtered) {
+            let totalSMS = 0;
+            let totalCost = 0;
+            const depts = new Set();
+            const apps = new Set();
+            const vendors = new Set();
+            const masks = new Set();
+
+            filtered.forEach(r => {
+                totalSMS += r.sms;
+                totalCost += r.cost;
+                depts.add(r.dept);
+                apps.add(r.app);
+                vendors.add(r.vendor);
+                masks.add(r.mask);
+            });
+
+            const avgCost = totalSMS > 0 ? (totalCost / totalSMS) : 0;
+
+            document.getElementById('kpi-sms').textContent = formatNumber(totalSMS, 'million');
+            document.getElementById('kpi-cost').textContent = formatNumber(totalCost, 'currency');
+            document.getElementById('kpi-unit-cost').textContent = formatNumber(avgCost, 'decimal');
+            document.getElementById('kpi-dept-count').textContent = formatNumber(depts.size, 'integer');
+            
+            document.getElementById('kpi-vendor-count').textContent = formatNumber(vendors.size, 'integer');
+            
+        }
+
+        // MASK TABLES RENDER
+        function renderMasksTable(filtered) {
+            const tbody = document.querySelector('#overview-masks-table tbody');
+            tbody.innerHTML = '';
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-secondary);">${TRANSLATIONS[currentLang]['no_data']}</td></tr>`;
+                return;
+            }
+
+            const maskSums = {};
+            let totalSMS = 0;
+            filtered.forEach(r => {
+                maskSums[r.mask] = (maskSums[r.mask] || 0) + r.sms;
+                totalSMS += r.sms;
+            });
+
+            const sorted = Object.entries(maskSums).sort((a, b) => b[1] - a[1]);
+            sorted.forEach(([mask, sms]) => {
+                const share = totalSMS > 0 ? ((sms / totalSMS) * 100) : 0;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div style="font-weight: 600; color: var(--text-primary);">${mask}</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${share}%;"></div>
+                        </div>
+                    </td>
+                    <td style="text-align: right; font-weight: 500;">${formatNumber(sms)}</td>
+                    <td style="text-align: right; font-weight: 600; color: var(--primary-color);">${share.toFixed(1)}%</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // DYNAMIC DIRECTOR INSIGHTS GENERATION
+        function generateInsights(filtered) {
+            const container = document.getElementById('insights-container');
+            container.innerHTML = '';
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="text-align: center; grid-column: span 3; color: var(--text-secondary);">${TRANSLATIONS[currentLang]['no_data']}</div>`;
+                return;
+            }
+
+            const deptSums = {};
+            const monthSMS = {};
+            const monthCosts = {};
+            let totalSMS = 0;
+            let totalCost = 0;
+
+            filtered.forEach(r => {
+                deptSums[r.dept] = (deptSums[r.dept] || 0) + r.sms;
+                monthSMS[r.month] = (monthSMS[r.month] || 0) + r.sms;
+                monthCosts[r.month] = (monthCosts[r.month] || 0) + r.cost;
+                totalSMS += r.sms;
+                totalCost += r.cost;
+            });
+
+            const sortedDepts = Object.entries(deptSums).sort((a, b) => b[1] - a[1]);
+            const sortedMonthsSMS = Object.entries(monthSMS).sort((a, b) => b[1] - a[1]);
+            const sortedMonthsCost = Object.entries(monthCosts).sort((a, b) => b[1] - a[1]);
+
+            const insights = [];
+
+            // Card 1: Concentration
+            if (sortedDepts.length > 0) {
+                const topDept = sortedDepts[0][0];
+                const topSMS = sortedDepts[0][1];
+                const topPct = ((topSMS / totalSMS) * 100).toFixed(1);
+                
+                insights.push({
+                    icon: 'fa-solid fa-ranking-star',
+                    title: currentLang === 'ur' ? 'سب سے بڑا صارف' : 'Primary Consumer',
+                    text: currentLang === 'ur' 
+                        ? `شعبہ <strong>${getTranslatedValue(topDept)}</strong> کل حجم کا <strong>${topPct}%</strong> (<strong>${formatNumber(topSMS, 'million')}</strong>) کے ساتھ سرفہرست ہے۔`
+                        : `Department <strong>${topDept}</strong> represents the heaviest consumption at <strong>${topPct}%</strong> (<strong>${formatNumber(topSMS, 'million')}</strong>).`
+                });
+            }
+
+            // Card 2: Runner up
+            if (sortedDepts.length > 1) {
+                const secDept = sortedDepts[1][0];
+                const secSMS = sortedDepts[1][1];
+                const secPct = ((secSMS / totalSMS) * 100).toFixed(1);
+
+                insights.push({
+                    icon: 'fa-solid fa-square-poll-vertical',
+                    title: currentLang === 'ur' ? 'دوسرا بڑا حصہ دار' : 'Secondary Contributor',
+                    text: currentLang === 'ur'
+                        ? `دوسرا بڑا استعمال کنندہ <strong>${getTranslatedValue(secDept)}</strong> ہے جو مجموعی طور پر <strong>${secPct}%</strong> حجم رکھتا ہے۔`
+                        : `The second highest consumption belongs to <strong>${secDept}</strong> sharing <strong>${secPct}%</strong>.`
+                });
+            }
+
+            // Card 3: Peaks
+            if (sortedMonthsSMS.length > 0 && sortedMonthsCost.length > 0) {
+                const peakMonth = sortedMonthsSMS[0][0];
+                const peakCostMonth = sortedMonthsCost[0][0];
+                
+                insights.push({
+                    icon: 'fa-solid fa-fire',
+                    title: currentLang === 'ur' ? 'عروج کی مدت' : 'Peak Consumption',
+                    text: currentLang === 'ur'
+                        ? `سب سے زیادہ پیغامات <strong>${formatMonthName(peakMonth, 'ur')}</strong> میں بھیجے گئے، جبکہ لاگت کا عروج <strong>${formatMonthName(peakCostMonth, 'ur')}</strong> میں ریکارڈ کیا گیا۔`
+                        : `Consumption peaked in <strong>${formatMonthName(peakMonth, 'en')}</strong>, while expense was max in <strong>${formatMonthName(peakCostMonth, 'en')}</strong>.`
+                });
+            }
+
+            insights.forEach(ins => {
+                const card = document.createElement('div');
+                card.className = 'insight-card';
+                card.innerHTML = `
+                    <div class="insight-header">
+                        <i class="${ins.icon}"></i>
+                        <span>${ins.title}</span>
+                    </div>
+                    <div class="insight-body">
+                        ${ins.text}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // CHARTS LOGIC & CONFIGS (NO DATALABELS ON LINE TRENDS)
+        function getThemeColors() {
+            if (currentTheme === 'royal') {
+                return ['#2ed573', '#eccc68', '#ffa502', '#70a1ff', '#1e90ff', '#20bf6b'];
+            } else if (currentTheme === 'dark') {
+                return ['#00e5ff', '#d500f9', '#ffeb3b', '#ff7043', '#00e676', '#38bdf8'];
+            } else {
+                return ['#3b82f6', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#64748b'];
+            }
+        }
+
+        function initCharts() {
+            const colors = getThemeColors();
+            const isDark = currentTheme !== 'clean';
+
+            const defaultOpts = {
+                chart: {
+                    fontFamily: currentLang === 'ur' ? 'Noto Sans Arabic, sans-serif' : 'Outfit, sans-serif',
+                    toolbar: { show: false },
+                    background: 'transparent'
+                },
+                theme: { mode: isDark ? 'dark' : 'light' },
+                colors: colors,
+                grid: { borderColor: isDark ? 'rgba(255, 255, 255, 0.05)' : '#e2e8f0' }
+            };
+
+            // 1. SMS Consumption Trend
+            globalCharts.overviewSMSTrend = new ApexCharts(document.querySelector("#chart-overview-sms-trend"), {
+                ...defaultOpts,
+                series: [{ name: 'SMS', data: [] }],
+                chart: { ...defaultOpts.chart, type: 'area', height: 280 },
+                stroke: { curve: 'smooth', width: 3 },
+                dataLabels: { enabled: false },
+                fill: { type: 'gradient', gradient: { opacityFrom: 0.35, opacityTo: 0.05 } },
+                xaxis: { categories: monthCategories },
+                yaxis: { labels: { formatter: (v) => formatNumber(v, 'million') } },
+                tooltip: { 
+                    y: { formatter: (v) => formatNumber(v, 'integer') + ' SMS' }
+                }
+            });
+            globalCharts.overviewSMSTrend.render();
+
+            // 2. SMS Cost Trend
+            globalCharts.overviewCostTrend = new ApexCharts(document.querySelector("#chart-overview-cost-trend"), {
+                ...defaultOpts,
+                series: [{ name: 'Cost (PKR)', data: [] }],
+                chart: { ...defaultOpts.chart, type: 'area', height: 280 },
+                colors: [colors[1] || '#eccc68'],
+                stroke: { curve: 'smooth', width: 3 },
+                dataLabels: { enabled: false },
+                fill: { type: 'gradient', gradient: { opacityFrom: 0.35, opacityTo: 0.05 } },
+                xaxis: { categories: monthCategories },
+                yaxis: { labels: { formatter: (v) => formatNumber(v, 'currency') } },
+                tooltip: { 
+                    y: { formatter: (v) => formatNumber(v, 'decimal') + ' PKR' }
+                }
+            });
+            globalCharts.overviewCostTrend.render();
+
+            // 3. SMS vs Cost Mixed
+            globalCharts.overviewMixed = new ApexCharts(document.querySelector("#chart-overview-mixed"), {
+                ...defaultOpts,
+                series: [
+                    { name: 'SMS', type: 'column', data: [] },
+                    { name: 'Cost (PKR)', type: 'line', data: [] }
+                ],
+                chart: { ...defaultOpts.chart, type: 'line', height: 280 },
+                stroke: { width: [0, 4], curve: 'smooth' },
+                dataLabels: { enabled: false },
+                xaxis: { categories: monthCategories },
+                yaxis: [
+                    { labels: { formatter: (v) => formatNumber(v, 'million') } },
+                    { opposite: true, labels: { formatter: (v) => formatNumber(v, 'currency') } }
+                ],
+                tooltip: {
+                    shared: true,
+                    y: [
+                        { formatter: (v) => formatNumber(v, 'integer') + ' SMS' },
+                        { formatter: (v) => formatNumber(v, 'decimal') + ' PKR' }
+                    ]
+                }
+            });
+            globalCharts.overviewMixed.render();
+
+            // 4. Departments Donut
+            globalCharts.deptDonut = new ApexCharts(document.querySelector("#chart-dept-donut"), {
+                ...defaultOpts,
+                series: [],
+                labels: [],
+                chart: { ...defaultOpts.chart, type: 'donut', height: 280 },
+                legend: { position: 'bottom' },
+                dataLabels: { enabled: false },
+                plotOptions: { pie: { donut: { size: '72%' } } },
+                tooltip: {
+                    y: { formatter: (v) => formatNumber(v, 'integer') + ' SMS' }
+                }
+            });
+            globalCharts.deptDonut.render();
+
+            // 5. Dept Contribution Bar
+            globalCharts.deptContrib = new ApexCharts(document.querySelector("#chart-dept-contrib"), {
+                ...defaultOpts,
+                series: [{ name: 'Share %', data: [] }],
+                chart: { ...defaultOpts.chart, type: 'bar', height: 280 },
+                dataLabels: { enabled: true, formatter: (v) => v.toFixed(1) + '%' },
+                plotOptions: { bar: { horizontal: true, barHeight: '55%', borderRadius: 4 } },
+                xaxis: { labels: { formatter: (v) => v.toFixed(1) + '%' } }
+            });
+            globalCharts.deptContrib.render();
+
+            // 6. Dept Wise Cost Bar
+            globalCharts.deptCost = new ApexCharts(document.querySelector("#chart-dept-cost"), {
+                ...defaultOpts,
+                series: [{ name: 'Cost (PKR)', data: [] }],
+                chart: { ...defaultOpts.chart, type: 'bar', height: 280 },
+                colors: [colors[1] || '#eccc68'],
+                dataLabels: { enabled: false },
+                plotOptions: { bar: { horizontal: true, barHeight: '55%', borderRadius: 4 } },
+                xaxis: { labels: { formatter: (v) => formatNumber(v, 'currency') } },
+                tooltip: {
+                    y: { formatter: (v) => formatNumber(v, 'decimal') + ' PKR' }
+                }
+            });
+            globalCharts.deptCost.render();
+
+            // 7. Applications Treemap
+            globalCharts.deptAppsTreemap = new ApexCharts(document.querySelector("#chart-dept-apps-treemap"), {
+                ...defaultOpts,
+                series: [{ data: [] }],
+                chart: { ...defaultOpts.chart, type: 'treemap', height: 300 },
+                plotOptions: { treemap: { distributed: true, enableShades: false } },
+                tooltip: {
+                    y: { formatter: (v) => formatNumber(v, 'integer') + ' SMS' }
+                }
+            });
+            globalCharts.deptAppsTreemap.render();
+
+            // 8. Vendor Donut
+            globalCharts.vendorDonut = new ApexCharts(document.querySelector("#chart-vendor-donut"), {
+                ...defaultOpts,
+                series: [],
+                labels: [],
+                chart: { ...defaultOpts.chart, type: 'donut', height: 280 },
+                legend: { position: 'bottom' },
+                dataLabels: { enabled: false },
+                plotOptions: { pie: { donut: { size: '72%' } } },
+                tooltip: {
+                    y: { formatter: (v) => formatNumber(v, 'integer') + ' SMS' }
+                }
+            });
+            globalCharts.vendorDonut.render();
+
+            // 9. Vendor Cost Bar
+            globalCharts.vendorCost = new ApexCharts(document.querySelector("#chart-vendor-cost"), {
+                ...defaultOpts,
+                series: [{ name: 'Cost (PKR)', data: [] }],
+                chart: { ...defaultOpts.chart, type: 'bar', height: 280 },
+                colors: [colors[1] || '#eccc68'],
+                dataLabels: { enabled: false },
+                plotOptions: { bar: { horizontal: true, barHeight: '50%', borderRadius: 4 } },
+                xaxis: { labels: { formatter: (v) => formatNumber(v, 'currency') } },
+                tooltip: {
+                    y: { formatter: (v) => formatNumber(v, 'decimal') + ' PKR' }
+                }
+            });
+            globalCharts.vendorCost.render();
+
+            // 10. Cost per SMS Trend
+            globalCharts.vendorUnitCostTrend = new ApexCharts(document.querySelector("#chart-vendor-unit-cost-trend"), {
+                ...defaultOpts,
+                series: [{ name: 'Cost per SMS', data: [] }],
+                chart: { ...defaultOpts.chart, type: 'line', height: 280 },
+                colors: ['#e11d48'],
+                stroke: { curve: 'smooth', width: 3 },
+                dataLabels: { enabled: false },
+                xaxis: { categories: monthCategories },
+                yaxis: { labels: { formatter: (v) => v.toFixed(2) } },
+                tooltip: {
+                    y: { formatter: (v) => v.toFixed(2) + ' PKR' }
+                }
+            });
+            globalCharts.vendorUnitCostTrend.render();
+        }
+
+        // UPDATE CHART VALUES
+        function updateCharts(filtered) {
+            const monthlySMS = Array(12).fill(0);
+            const monthlyCost = Array(12).fill(0);
+            const deptSMS = {};
+            const deptCost = {};
+            const appSMS = {};
+            const vendorSMS = {};
+            const vendorCost = {};
+
+            filtered.forEach(r => {
+                const idx = monthCategories.indexOf(r.month);
+                if (idx !== -1) {
+                    monthlySMS[idx] += r.sms;
+                    monthlyCost[idx] += r.cost;
+                }
+                deptSMS[r.dept] = (deptSMS[r.dept] || 0) + r.sms;
+                deptCost[r.dept] = (deptCost[r.dept] || 0) + r.cost;
+                appSMS[r.app] = (appSMS[r.app] || 0) + r.sms;
+                vendorSMS[r.vendor] = (vendorSMS[r.vendor] || 0) + r.sms;
+                vendorCost[r.vendor] = (vendorCost[r.vendor] || 0) + r.cost;
+            });
+
+            const totalSMS = monthlySMS.reduce((a, b) => a + b, 0);
+            const localizedMonths = monthCategories.map(m => formatMonthName(m, currentLang));
+
+            // VIEW 1: OVERVIEW UPDATE
+            globalCharts.overviewSMSTrend.updateSeries([{ name: TRANSLATIONS[currentLang]['sms_label'], data: monthlySMS }]);
+            globalCharts.overviewSMSTrend.updateOptions({ xaxis: { categories: localizedMonths } });
+
+            globalCharts.overviewCostTrend.updateSeries([{ name: TRANSLATIONS[currentLang]['cost_label'], data: monthlyCost }]);
+            globalCharts.overviewCostTrend.updateOptions({ xaxis: { categories: localizedMonths } });
+
+            globalCharts.overviewMixed.updateSeries([
+                { name: TRANSLATIONS[currentLang]['sms_label'], type: 'column', data: monthlySMS },
+                { name: TRANSLATIONS[currentLang]['cost_label'], type: 'line', data: monthlyCost }
+            ]);
+            globalCharts.overviewMixed.updateOptions({ xaxis: { categories: localizedMonths } });
+
+            // VIEW 2: DEPARTMENT UPDATE
+            const sortedDepts = Object.entries(deptSMS).sort((a, b) => b[1] - a[1]);
+            const top10Depts = sortedDepts.slice(0, 10);
+            
+            globalCharts.deptDonut.updateSeries(sortedDepts.map(d => d[1]));
+            globalCharts.deptDonut.updateOptions({ labels: sortedDepts.map(d => getTranslatedValue(d[0])) });
+
+            globalCharts.deptContrib.updateSeries([{ name: TRANSLATIONS[currentLang]['share_label'] + ' %', data: top10Depts.map(d => totalSMS > 0 ? (d[1] / totalSMS * 100) : 0) }]);
+            globalCharts.deptContrib.updateOptions({ xaxis: { categories: top10Depts.map(d => getTranslatedValue(d[0])) } });
+
+            const sortedDeptCost = Object.entries(deptCost).sort((a, b) => b[1] - a[1]).slice(0, 10);
+            globalCharts.deptCost.updateSeries([{ name: TRANSLATIONS[currentLang]['cost_label'], data: sortedDeptCost.map(d => d[1]) }]);
+            globalCharts.deptCost.updateOptions({ xaxis: { categories: sortedDeptCost.map(d => getTranslatedValue(d[0])) } });
+
+            const appsData = Object.entries(appSMS).sort((a, b) => b[1] - a[1]).slice(0, 15).map(([app, sms]) => ({
+                x: getTranslatedValue(app),
+                y: sms
+            }));
+            globalCharts.deptAppsTreemap.updateSeries([{ data: appsData }]);
+
+            // VIEW 3: VENDORS UPDATE
+            const sortedVendors = Object.entries(vendorSMS).sort((a, b) => b[1] - a[1]);
+            globalCharts.vendorDonut.updateSeries(sortedVendors.map(v => v[1]));
+            globalCharts.vendorDonut.updateOptions({ labels: sortedVendors.map(v => getTranslatedValue(v[0])) });
+
+            const sortedVendorCost = Object.entries(vendorCost).sort((a, b) => b[1] - a[1]);
+            globalCharts.vendorCost.updateSeries([{ name: TRANSLATIONS[currentLang]['cost_label'], data: sortedVendorCost.map(v => v[1]) }]);
+            globalCharts.vendorCost.updateOptions({ xaxis: { categories: sortedVendorCost.map(v => getTranslatedValue(v[0])) } });
+
+            const unitCosts = monthlySMS.map((sms, i) => sms > 0 ? (monthlyCost[i] / sms) : 0);
+            globalCharts.vendorUnitCostTrend.updateSeries([{ name: TRANSLATIONS[currentLang]['kpi_cost_per_sms'], data: unitCosts }]);
+            globalCharts.vendorUnitCostTrend.updateOptions({ xaxis: { categories: localizedMonths } });
+        }
+
+        // REDRAW CHARTS (THEME SWITCH)
+        function redrawChartsForTheme() {
+            const colors = getThemeColors();
+            const isDark = currentTheme !== 'clean';
+
+            Object.keys(globalCharts).forEach(key => {
+                const chart = globalCharts[key];
+                chart.updateOptions({
+                    theme: { mode: isDark ? 'dark' : 'light' },
+                    colors: key === 'overviewCostTrend' ? [colors[1] || '#eccc68'] :
+                            key === 'deptCost' ? [colors[1] || '#eccc68'] :
+                            key === 'vendorCost' ? [colors[1] || '#eccc68'] :
+                            key === 'vendorUnitCostTrend' ? ['#e11d48'] : colors,
+                    grid: { borderColor: isDark ? 'rgba(255, 255, 255, 0.05)' : '#e2e8f0' }
+                });
+            });
+        }
+
+        // DATA EXPLORER TAB - DATATABLE MANAGER
+        function renderDataTable() {
+            let dataset = getFilteredData();
+
+            if (dtSearchQuery) {
+                const q = dtSearchQuery.toLowerCase();
+                dataset = dataset.filter(r => {
+                    return r.dept.toLowerCase().includes(q) ||
+                           r.app.toLowerCase().includes(q) ||
+                           r.vendor.toLowerCase().includes(q) ||
+                           r.mask.toLowerCase().includes(q) ||
+                           r.month.includes(q);
+                });
+            }
+
+            dataset.sort((a, b) => {
+                let valA = a[dtSortColumn];
+                let valB = b[dtSortColumn];
+
+                if (typeof valA === 'string') {
+                    valA = valA.toLowerCase();
+                    valB = valB.toLowerCase();
+                }
+
+                if (valA < valB) return dtSortOrder === 'asc' ? -1 : 1;
+                if (valA > valB) return dtSortOrder === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            const totalSMS = dataset.reduce((sum, r) => sum + r.sms, 0);
+            const totalCost = dataset.reduce((sum, r) => sum + r.cost, 0);
+
+            const totalRecords = dataset.length;
+            const totalPages = Math.ceil(totalRecords / dtRowsPerPage) || 1;
+            
+            if (dtCurrentPage > totalPages) dtCurrentPage = totalPages;
+            if (dtCurrentPage < 1) dtCurrentPage = 1;
+
+            const startIdx = (dtCurrentPage - 1) * dtRowsPerPage;
+            const endIdx = Math.min(startIdx + dtRowsPerPage, totalRecords);
+            const paginatedRows = dataset.slice(startIdx, endIdx);
+
+            const tbody = document.querySelector('#main-data-table tbody');
+            tbody.innerHTML = '';
+
+            if (paginatedRows.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-secondary);">${TRANSLATIONS[currentLang]['no_data']}</td></tr>`;
+            } else {
+                paginatedRows.forEach(r => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${r.s_no}</td>
+                        <td>${getTranslatedValue(r.dept)}</td>
+                        <td>${getTranslatedValue(r.app)}</td>
+                        <td>${getTranslatedValue(r.vendor)}</td>
+                        <td><span class="badge-pill">${r.mask}</span></td>
+                        <td style="text-align: right; font-weight: 600;">${formatNumber(r.sms)}</td>
+                        <td>${formatMonthName(r.month, currentLang)}</td>
+                        <td style="text-align: right; color: var(--primary-color); font-weight: 600;">${formatNumber(r.cost, 'decimal')}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                // Grand Total Row
+                const totalTr = document.createElement('tr');
+                totalTr.className = 'total-row';
+                totalTr.innerHTML = `
+                    <td colspan="5" style="text-align: right; font-weight: 700; text-transform: uppercase;">${TRANSLATIONS[currentLang]['all']} / ${TRANSLATIONS[currentLang]['total']}</td>
+                    <td style="text-align: right; font-weight: 700;">${formatNumber(totalSMS)}</td>
+                    <td></td>
+                    <td style="text-align: right; font-weight: 700; color: var(--primary-color);">${formatNumber(totalCost, 'decimal')}</td>
+                `;
+                tbody.appendChild(totalTr);
+            }
+
+            const pageInfo = document.getElementById('table-page-info');
+            pageInfo.textContent = currentLang === 'ur'
+                ? `ریکارڈز ${startIdx + 1} تا ${endIdx} دکھائے جا رہے ہیں (کل ${totalRecords})`
+                : `Showing ${startIdx + 1}-${endIdx} of ${totalRecords} records`;
+
+            const paginationContainer = document.getElementById('table-pagination');
+            paginationContainer.innerHTML = '';
+
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'page-btn';
+            prevBtn.innerHTML = currentLang === 'ur' ? '<i class="fa-solid fa-chevron-right"></i>' : '<i class="fa-solid fa-chevron-left"></i>';
+            prevBtn.disabled = dtCurrentPage === 1;
+            prevBtn.onclick = () => { dtCurrentPage--; renderDataTable(); };
+            paginationContainer.appendChild(prevBtn);
+
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, dtCurrentPage - 2);
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${dtCurrentPage === i ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.onclick = () => { dtCurrentPage = i; renderDataTable(); };
+                paginationContainer.appendChild(btn);
+            }
+
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'page-btn';
+            nextBtn.innerHTML = currentLang === 'ur' ? '<i class="fa-solid fa-chevron-left"></i>' : '<i class="fa-solid fa-chevron-right"></i>';
+            nextBtn.disabled = dtCurrentPage === totalPages;
+            nextBtn.onclick = () => { dtCurrentPage++; renderDataTable(); };
+            paginationContainer.appendChild(nextBtn);
+        }
+
+        function handleTableSearch() {
+            dtSearchQuery = document.getElementById('table-search').value;
+            dtCurrentPage = 1;
+            renderDataTable();
+        }
+
+        function sortTable(column) {
+            if (dtSortColumn === column) {
+                dtSortOrder = dtSortOrder === 'asc' ? 'desc' : 'asc';
+            } else {
+                dtSortColumn = column;
+                dtSortOrder = 'asc';
+            }
+            renderDataTable();
+        }
+
+        function changeRowsPerPage(val) {
+            dtRowsPerPage = parseInt(val);
+            dtCurrentPage = 1;
+            renderDataTable();
+        }
+
+        // WORKSPACE FILTER DYNAMIC EVENT
+        function handleFilterChange() {
+            const filtered = getFilteredData();
+            
+            updateKPIs(filtered);
+            updateCharts(filtered);
+            renderMasksTable(filtered);
+            generateInsights(filtered);
+            renderDataTable();
+            updateLocalizationUI();
+        }
+
+        // CLEAR FILTERS SELECTOR
+        function clearAllFilters() {
+            const selects = {
+                year: ['filter-year', 'mobile-filter-year'],
+                month: ['filter-month', 'mobile-filter-month'],
+                dept: ['filter-dept', 'mobile-filter-dept'],
+                app: ['filter-app', 'mobile-filter-app'],
+                vendor: ['filter-vendor', 'mobile-filter-vendor'],
+                mask: ['filter-mask', 'mobile-filter-mask']
+            };
+
+            Object.values(selects).forEach(pair => {
+                document.getElementById(pair[0]).value = 'all';
+                document.getElementById(pair[1]).value = 'all';
+            });
+
+            handleFilterChange();
+        }
+
+        // LOCALIZATION ENGINES
+        function updateLocalizationUI() {
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (TRANSLATIONS[currentLang][key]) {
+                    el.textContent = TRANSLATIONS[currentLang][key];
+                }
+            });
+
+            const htmlTag = document.documentElement;
+            if (currentLang === 'ur') {
+                htmlTag.setAttribute('dir', 'rtl');
+                htmlTag.setAttribute('lang', 'ur');
+                document.getElementById('lang-ur').classList.add('active');
+                document.getElementById('lang-en').classList.remove('active');
+                document.getElementById('mobile-lang-ur').classList.add('active');
+                document.getElementById('mobile-lang-en').classList.remove('active');
+            } else {
+                htmlTag.setAttribute('dir', 'ltr');
+                htmlTag.setAttribute('lang', 'en');
+                document.getElementById('lang-en').classList.add('active');
+                document.getElementById('lang-ur').classList.remove('active');
+                document.getElementById('mobile-lang-en').classList.add('active');
+                document.getElementById('mobile-lang-ur').classList.remove('active');
+            }
+
+            // Sync Month Option Translations
+            document.querySelectorAll('#filter-month option, #mobile-filter-month option').forEach(opt => {
+                const val = opt.getAttribute('data-month-val');
+                if (val) opt.textContent = formatMonthName(val, currentLang);
+                else opt.textContent = TRANSLATIONS[currentLang]['all'];
+            });
+
+            // Sync Dropdown Options
+            document.querySelectorAll('#filter-dept option, #mobile-filter-dept option, #filter-app option, #mobile-filter-app option, #filter-vendor option, #mobile-filter-vendor option, #filter-mask option, #mobile-filter-mask option').forEach(opt => {
+                const orig = opt.getAttribute('data-orig-text');
+                if (orig) opt.textContent = getTranslatedValue(orig);
+                else opt.textContent = TRANSLATIONS[currentLang]['all'];
+            });
+
+            const currentTitleEl = document.getElementById('view-title');
+            const translationKey = currentTitleEl.getAttribute('data-translate');
+            if (translationKey) {
+                currentTitleEl.textContent = TRANSLATIONS[currentLang][translationKey];
+            }
+
+            const yearVal = document.getElementById('filter-year').value;
+            const monthVal = document.getElementById('filter-month').value;
+            let dateText = '';
+            if (monthVal !== 'all') {
+                dateText = formatMonthName(monthVal, currentLang);
+            } else if (yearVal !== 'all') {
+                dateText = yearVal === '2025' ? 
+                    (currentLang === 'ur' ? 'جولائی 2025 – دسمبر 2025' : 'Jul 2025 - Dec 2025') : 
+                    (currentLang === 'ur' ? 'جنوری 2026 – جون 2026' : 'Jan 2026 - Jun 2026');
+            } else {
+                dateText = currentLang === 'ur' ? '01 جولائی 2025 - 30 جون 2026' : '01 Jul 2025 - 30 Jun 2026';
+            }
+            document.getElementById('date-range-badge').textContent = dateText;
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            updateLocalizationUI();
+            
+            const filtered = getFilteredData();
+            updateCharts(filtered);
+            renderMasksTable(filtered);
+            generateInsights(filtered);
+            renderDataTable();
+        }
+
+        // THEME CONTROLLERS
+        function setTheme(themeName) {
+            const htmlTag = document.documentElement;
+            htmlTag.className = '';
+            
+            currentTheme = themeName;
+            
+            if (themeName === 'royal') htmlTag.classList.add('theme-royal');
+            else if (themeName === 'dark') htmlTag.classList.add('theme-dark');
+            else if (themeName === 'clean') htmlTag.classList.add('theme-clean');
+
+            document.getElementById('theme-selector').value = themeName;
+            document.getElementById('mobile-theme-selector').value = themeName;
+            
+            redrawChartsForTheme();
+        }
+
+        // SYSTEM LAUNCHER
+        window.addEventListener('DOMContentLoaded', () => {
+            initDropdowns();
+            updateLocalizationUI();
+            initCharts();
+            
+            const filtered = getFilteredData();
+            updateKPIs(filtered);
+            updateCharts(filtered);
+            renderMasksTable(filtered);
+            generateInsights(filtered);
+            renderDataTable();
+
+            setTheme('clean');
+        });
+    </script>
+</body>
+</html>
